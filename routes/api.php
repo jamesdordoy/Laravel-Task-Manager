@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/task/{id}', 'TaskController@show');
+
+Route::put('/task/{id}', 'TaskController@update');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

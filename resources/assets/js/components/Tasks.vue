@@ -4,8 +4,14 @@
     <ul class="list-group">
       
       <li class="list-group-item" v-for="task in list">
-        <h2>{{ task.title }}</h2>
-        <p>{{ task.body }}</p>
+        <h2>Title: {{ task.title }}</h2>
+        <p>Description: {{ task.body }}</p>
+        <small><p class="pull-right">Last Updated: {{ task.updated_at }}</p></small>
+        <p>
+          <button class="btn-primary"><a :href=" '/edit/' + task.id">Edit</a></button>
+          <button v-on:click="remove" class="btn-primary">Delete</button>
+          <button v-on:click="complete" class="btn-primary">Mark as Complete</button>
+        </p>
       </li>
     </ul>
   </div>
@@ -15,12 +21,31 @@
   .tasks-container{
     margin-top:20px;
   }
+  
+  .btn-primary{
+    margin-right: 5px;
+    padding: 3px;
+  }
+  
+  .btn-primary a{
+    color:#fff;
+    text-decoration: none;
+  }
 </style>
 
 <script>
   export default {
   
     template: '#tasks-template',
-    props: ['list']
+    props: ['list'],
+    
+    methods: {
+      complete : function(event){
+        alert("complete");
+      },
+      remove : function(event){
+        alert("remove");
+      }
+    }
   };
 </script>

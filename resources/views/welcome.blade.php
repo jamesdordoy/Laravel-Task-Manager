@@ -4,7 +4,9 @@
   
   <div id="main" class="container">
     
-    <result-dialog type="success">Heyy</result-dialog>
+    @if (session("success"))
+      <result-dialog type="success">Values Added</result-dialog>
+    @endif
     
     <tasks :list="{{ $tasks }}"></tasks>
   </div>

@@ -3,8 +3,8 @@
 @section("content")
   
   <div id="main" class="container">
-    <h1>Add New Task</h1>
-    <task-form task="" action="add" csrf='{{ csrf_field() }}'></task-form>
+    <h1>Edit Task</h1>
+    <task-form task="{{ $task }}" action="edit" csrf='{{ csrf_field() }}'></task-form>
     
   </div>
   
@@ -17,5 +17,5 @@
 
 @section('scripts')
   <script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
-  <script src="/js/add.js"></script>
+  <!-- <script src="/js/edit.js"></script> -->
 @endsection

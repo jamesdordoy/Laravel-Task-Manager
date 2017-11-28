@@ -12,6 +12,9 @@
 */
 
 Route::get("/", 'TaskController@index');
-Route::get("/add", 'TaskController@create');
 
-Route::post("/pois/create", "TaskController@store");
+Route::get("/add", 'TaskController@create');
+Route::post("/add", "TaskController@store");
+
+Route::get("/edit/{id}", 'TaskController@edit');
+Route::post("/edit/{id}", "TaskController@update");
