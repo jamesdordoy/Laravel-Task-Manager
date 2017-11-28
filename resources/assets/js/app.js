@@ -16,7 +16,10 @@ window.Vue = require('vue');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('result-dialog', require('./components/Dialog.vue'));
+Vue.component('tasks', require('./components/Tasks.vue'));
+Vue.component('task-form', require('./components/TaskForm.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#main'
 });
