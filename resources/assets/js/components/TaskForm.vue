@@ -29,10 +29,14 @@
 </style>
 
 <script>
+
+  import HTTP from '../HTTP';
+  
   export default {
     
     template: '#task-form-template',
     props: ['csrf', 'task', 'action'],
+    mixins: [ HTTP ],
     
     data: function(){
       return {
@@ -67,42 +71,18 @@
           
         }else if(this.action == "PUT"){
           event.preventDefault();
-          this.updateTask();
+          
+          let token = document.getElementsByName("_token")[0].value;
+          
+          this.updateTask(token, this.id, this.title, this.description, function(data){
+            console.log(data);
+          });
         }
       },
       
-      getTask: function(){
-        axios.get('/api/task/' + this.id)
-        .then(function (response) {
-          console.log(response.status);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      },
-      
-      deleteTask: function(){
-        
-      },
-      
-      updateTask: function () {
-        
-        var config = {
-          headers: {'X-CSRF-TOKEN': document.getElementsByName("_token")[0].value}
-        };
-            
-        axios.put("/api/task/" + this.id, {
-          title: this.title,
-          body: this.description
-        }, config).then(function (response) {
-          if(response.status == 200){
-            window.location.href = "/";
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });  
-      }
+      getTask: HTTP.getTask,
+      updateTask: HTTP.putTask,
+      deleteTask: HTTP.deleteTask,
     },
       
     computed: {
@@ -122,7 +102,6 @@
       },
       
       formMethod: function(){
-        
         return this.action;
       }
     }

@@ -1375,7 +1375,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(60);
+module.exports = __webpack_require__(61);
 
 
 /***/ }),
@@ -43660,7 +43660,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(58)
 /* template */
-var __vue_template__ = __webpack_require__(59)
+var __vue_template__ = __webpack_require__(60)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -43745,6 +43745,7 @@ exports.push([module.i, "\n.list-group-item[data-v-b34c6ec0]{\n  margin-bottom: 
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__HTTP__ = __webpack_require__(59);
 //
 //
 //
@@ -43775,11 +43776,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
   template: '#task-form-template',
   props: ['csrf', 'task', 'action'],
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__HTTP__["a" /* default */]],
 
   data: function data() {
     return {
@@ -43812,37 +43817,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     handleSubmit: function handleSubmit(event) {
       if (this.action == "POST") {} else if (this.action == "PUT") {
         event.preventDefault();
-        this.updateTask();
+
+        var token = document.getElementsByName("_token")[0].value;
+
+        this.updateTask(token, this.id, this.title, this.description, function (data) {
+          console.log(data);
+        });
       }
     },
 
-    getTask: function getTask() {
-      axios.get('/api/task/' + this.id).then(function (response) {
-        console.log(response.status);
-      }).catch(function (error) {
-        console.log(error);
-      });
-    },
-
-    deleteTask: function deleteTask() {},
-
-    updateTask: function updateTask() {
-
-      var config = {
-        headers: { 'X-CSRF-TOKEN': document.getElementsByName("_token")[0].value }
-      };
-
-      axios.put("/api/task/" + this.id, {
-        title: this.title,
-        body: this.description
-      }, config).then(function (response) {
-        if (response.status == 200) {
-          window.location.href = "/";
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
-    }
+    getTask: __WEBPACK_IMPORTED_MODULE_0__HTTP__["a" /* default */].getTask,
+    updateTask: __WEBPACK_IMPORTED_MODULE_0__HTTP__["a" /* default */].putTask,
+    deleteTask: __WEBPACK_IMPORTED_MODULE_0__HTTP__["a" /* default */].deleteTask
   },
 
   computed: {
@@ -43870,6 +43856,69 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+var _createHeader = function _createHeader(token) {
+  return {
+    headers: {
+      'X-CSRF-TOKEN': token
+    }
+  };
+};
+
+var _getTask = function _getTask(id, success) {
+
+  axios.get('/api/task/' + id).then(function (response) {
+    success(response.data);
+  }).catch(function (error) {
+    console.log(error);
+  });
+};
+
+var _getTasks = function _getTasks(success) {
+
+  axios.get('/api/task/').then(function (response) {
+    success(response.data);
+  }).catch(function (error) {
+    console.log(error);
+  });
+};
+
+var _postTask = function _postTask(token, title, body, success) {};
+
+var _putTask = function _putTask(token, id, title, body, success) {
+
+  var config = _createHeader(token);
+
+  axios.put("/api/task/" + id, {
+    title: title,
+    body: body
+  }, config).then(function (response) {
+    if (response.status == 200) {
+      success(response.data);
+    }
+  }).catch(function (error) {
+    console.log(error);
+  });
+};
+
+var _deleteTask = function _deleteTask(token, id, success) {};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+
+  createHeader: _createHeader,
+  //R.E.S.T.
+  getTasks: _getTasks,
+  getTask: _getTask,
+  postTask: _postTask,
+  putTask: _putTask,
+  deleteTask: _deleteTask
+});
+
+/***/ }),
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -44002,7 +44051,7 @@ if (false) {
 }
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
