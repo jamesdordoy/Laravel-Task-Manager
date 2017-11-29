@@ -43641,7 +43641,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n.alert[data-v-1f6aa381]{\n  margin:50px 0;\n}\n.btn-primary[data-v-1f6aa381]{\n  float: right;\n}\n", ""]);
+exports.push([module.i, "\n.alert[data-v-1f6aa381]{\n  margin:50px 0;\n}\n.btn-primary[data-v-1f6aa381]{\n  float: right;\n  padding: 3px;\n}\n", ""]);
 
 // exports
 
@@ -43652,6 +43652,7 @@ exports.push([module.i, "\n.alert[data-v-1f6aa381]{\n  margin:50px 0;\n}\n.btn-p
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -43856,7 +43857,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n.tasks-container{\n  margin-top:20px;\n}\n.btn-primary{\n  margin-right: 5px;\n  padding: 3px;\n}\n.list-group-item{\n  position: relative;\n}\n.btn-primary a{\n  color:#fff;\n  text-decoration: none;\n}\n.top-right{\n  position: absolute;\n  top: 20px;\n  right: 20px;\n}\n.complete{\n  color:#00ffff;\n}\n.uncomplete{\n  color:#ff0000;\n}\n", ""]);
+exports.push([module.i, "\n.tasks-container{\n  margin-top:20px;\n}\n.btn-primary{\n  margin-right: 5px;\n}\n.list-group-item{\n  position: relative;\n}\n.list-group-item:hover{\n  background: #eee;\n}\n.btn-primary a{\n  color:#fff;\n  text-decoration: none;\n}\n.top-right{\n  position: absolute;\n  top: 20px;\n  right: 20px;\n}\n.complete{\n  color:#00ffff;\n}\n.uncomplete{\n  color:#ff0000;\n}\n", ""]);
 
 // exports
 
@@ -43870,6 +43871,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__HTTP__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ConfirmDialog__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ConfirmDialog___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ConfirmDialog__);
+//
+//
+//
 //
 //
 //

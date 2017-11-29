@@ -14,6 +14,7 @@
   
   .btn-primary{
     float: right;
+    padding: 3px;
   }
 </style>
 

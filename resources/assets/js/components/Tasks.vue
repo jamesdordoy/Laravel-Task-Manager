@@ -29,11 +29,14 @@
   
   .btn-primary{
     margin-right: 5px;
-    padding: 3px;
   }
   
   .list-group-item{
     position: relative;
+  }
+  
+  .list-group-item:hover{
+    background: #eee;
   }
   
   .btn-primary a{
