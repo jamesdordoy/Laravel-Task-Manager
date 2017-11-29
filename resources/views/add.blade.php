@@ -4,8 +4,11 @@
   
   <div id="main" class="container">
     <h1>Add New Task</h1>
-    <task-form task="" action="add" csrf='{{ csrf_field() }}'></task-form>
-    
+    <task-form 
+      task=""
+      action="POST"
+      csrf='{{ csrf_field() }}'>
+    </task-form>
   </div>
   
 @endsection

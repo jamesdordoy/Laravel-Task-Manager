@@ -4,7 +4,12 @@
   
   <div id="main" class="container">
     <h1>Edit Task</h1>
-    <task-form task="{{ $task }}" action="edit" csrf='{{ csrf_field() }}'></task-form>
+    
+    <task-form 
+      task="{{ $task }}"
+      action="PUT"
+      csrf='{{ csrf_field() }}'>
+    </task-form>
     
   </div>
   
@@ -16,6 +21,5 @@
 @endsection
 
 @section('scripts')
-  <script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
-  <!-- <script src="/js/edit.js"></script> -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 @endsection

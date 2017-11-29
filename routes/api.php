@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/task/{id}', 'TaskController@show');
+Route::get('/task', 'TaskController@index');
 
 Route::put('/task/{id}', 'TaskController@update');
 

@@ -43783,9 +43783,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   data: function data() {
     return {
+      id: "",
       title: "",
       description: "",
-      updated_at: ""
+      prevent: ""
     };
   },
 
@@ -43795,6 +43796,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     if (this.task) {
       var t = JSON.parse(this.task);
+      this.id = t.id;
       this.title = t.title;
       this.description = t.body;
     }
@@ -43805,21 +43807,65 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     document.querySelector('.updated_at').innerHTML = "Last Updated: " + new Date().toUTCString();
   },
 
+  methods: {
+
+    handleSubmit: function handleSubmit(event) {
+      if (this.action == "POST") {} else if (this.action == "PUT") {
+        event.preventDefault();
+        this.updateTask();
+      }
+    },
+
+    getTask: function getTask() {
+      axios.get('/api/task/' + this.id).then(function (response) {
+        console.log(response.status);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+
+    deleteTask: function deleteTask() {},
+
+    updateTask: function updateTask() {
+
+      var config = {
+        headers: { 'X-CSRF-TOKEN': document.getElementsByName("_token")[0].value }
+      };
+
+      axios.put("/api/task/" + this.id, {
+        title: this.title,
+        body: this.description
+      }, config).then(function (response) {
+        if (response.status == 200) {
+          window.location.href = "/";
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  },
+
   computed: {
 
-    alertActions: function alertActions() {
+    formAction: function formAction() {
 
       //Caching Type
       var action = this.action;
 
-      //Return CSS Classes
-      return {
-        '/edit': action == 'edit',
-        '/add': action == 'add'
-      };
+      if (action == 'PUT') {
+        return '/edit';
+      } else if (action == 'POST') {
+        return '/add';
+      }
+
+      return "";
+    },
+
+    formMethod: function formMethod() {
+
+      return this.action;
     }
   }
-
 });
 
 /***/ }),
@@ -43834,7 +43880,8 @@ var render = function() {
     "form",
     {
       staticClass: "add_task",
-      attrs: { method: "POST", action: "/add", id: "demo" }
+      attrs: { method: _vm.formMethod, action: _vm.formAction, id: "demo" },
+      on: { submit: _vm.handleSubmit }
     },
     [
       _c("p", [
@@ -43898,9 +43945,9 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
+      _c("h2", [_vm._v("Preview")]),
+      _vm._v(" "),
       _c("div", { staticClass: "list-group-item" }, [
-        _c("p", [_vm._v("Preview")]),
-        _vm._v(" "),
         _c("h2", [_vm._v("Title: " + _vm._s(_vm.title))]),
         _vm._v(" "),
         _c("p", [_vm._v("Description: " + _vm._s(_vm.description))]),

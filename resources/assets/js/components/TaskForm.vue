@@ -1,10 +1,10 @@
 <template id="task-form-template">
-  <form method="POST" action="/add" id="demo" class="add_task">
+  <form v-on:submit="handleSubmit" :method="formMethod" :action="formAction" id="demo" class="add_task">
     <p>Title: <input class="form-control" v-model="title" type="text" name="title" id="title" placeholder="Title"/></p>
     <p>Description: <textarea class="form-control" v-bind:class="{}" v-model="description" type="text" name="description" id="description" placeholder="Description"></textarea></p>
     
+    <h2>Preview</h2>
     <div class="list-group-item">
-      <p>Preview</p>
       
       <h2>Title: {{ title }}</h2>
       <p>Description: {{ description }}</p>
@@ -23,9 +23,9 @@
 </template>
 
 <style scoped>
-.list-group-item{
-  margin-bottom: 10px;
-}
+  .list-group-item{
+    margin-bottom: 10px;
+  }
 </style>
 
 <script>
@@ -36,9 +36,10 @@
     
     data: function(){
       return {
+        id: "",
         title: "",
         description: "",
-        updated_at: ""
+        prevent: ""
       };
     },
     
@@ -48,6 +49,7 @@
       
       if(this.task){
         let t = JSON.parse(this.task);
+        this.id = t.id;
         this.title = t.title;
         this.description = t.body;
       }
@@ -57,22 +59,72 @@
             
       document.querySelector('.updated_at').innerHTML = "Last Updated: " + new Date().toUTCString();
     },
+    
+    methods: {
+      
+      handleSubmit: function(event){
+        if(this.action == "POST"){
+          
+        }else if(this.action == "PUT"){
+          event.preventDefault();
+          this.updateTask();
+        }
+      },
+      
+      getTask: function(){
+        axios.get('/api/task/' + this.id)
+        .then(function (response) {
+          console.log(response.status);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      },
+      
+      deleteTask: function(){
+        
+      },
+      
+      updateTask: function () {
+        
+        var config = {
+          headers: {'X-CSRF-TOKEN': document.getElementsByName("_token")[0].value}
+        };
+            
+        axios.put("/api/task/" + this.id, {
+          title: this.title,
+          body: this.description
+        }, config).then(function (response) {
+          if(response.status == 200){
+            window.location.href = "/";
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });  
+      }
+    },
       
     computed: {
       
-      alertActions: function(){
+      formAction: function(){
         
         //Caching Type
         var action = this.action;
         
-        //Return CSS Classes
-        return {
-          '/edit' : action == 'edit',
-          '/add' : action == 'add',
+        if(action == 'PUT'){
+          return '/edit';
+        }else if(action == 'POST'){
+          return '/add';
         }
+        
+        return "";
+      },
+      
+      formMethod: function(){
+        
+        return this.action;
       }
     }
-    
-    
   };
 </script>

@@ -11,6 +11,30 @@ use App\Http\Resources\Task as TaskResource;
 class TaskController extends Controller
 {
   
+  public function home(){
+    
+    $tasks = Task::latest()->get();
+
+    return view('welcome', compact('tasks'));
+  }
+  
+  public function create(){
+    return view('add');
+  }
+  
+  /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+      $task = Task::findOrFail($id);
+
+      return view('edit')->withTask($task);
+    }
+  
   /**
      * Display a listing of the resource.
      *
@@ -18,13 +42,11 @@ class TaskController extends Controller
      */
   public function index(){
     
-    $tasks = Task::latest()->get();
-
-    return view('welcome', compact('tasks'));
+    return Task::latest()->get();
   }
-
-  public function create(){
-    return view('add');
+  
+  public function show ($id){
+      return new TaskResource(Task::find($id));
   }
 
   public function store(Request $request){
@@ -41,40 +63,37 @@ class TaskController extends Controller
     
     return redirect("/")->with("success", "Task Created");
   }
-  
-  /**
-     * Show the form for editing the specified resource.
+    /**
+     * Update the given Task.
      *
-     * @param  int  $id
+     * @param  Request  $request
+     * @param  string  $id
      * @return Response
      */
-    public function edit($id)
-    {
-      $task = Task::findOrFail($id);
-
-      return view('edit')->withTask($task);
+    public function update(Request $request, $id){
+      
+        if (!$id) {
+            throw new HttpException(400, "Invalid id");
+        }
+        
+        $task = Task::find($id);
+        $task->title = $request->input('title');
+        $task->body = $request->input('body');
+        if ($task->save()) {
+            return $task;
+        }
+        throw new HttpException(400, "Invalid data");
     }
     
-    public function show ($id)
+    public function destroy($id)
     {
-        return new TaskResource(Task::find($id));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function update($id)
-    {
-      $this->validate($request, [
-        'title' => 'required',
-        'description' => 'required'
-      ]);
-      
-      Task::find($id)->update($request->all());
-      
-      return redirect("/")->with('success','Article updated successfully');
+        if (!$id) {
+            throw new HttpException(400, "Invalid id");
+        }
+        $task = Task::find($id);
+        $task->delete();
+        return response()->json([
+            'message' => 'task deleted',
+        ], 200);
     }
 }
