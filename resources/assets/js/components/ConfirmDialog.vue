@@ -2,8 +2,9 @@
 <template id="alert-template">
   <div v-show="display" :class="alertClasses" class="alert-dismissable">
     <slot></slot>
-    <button v-on:click="confirm" class="btn-primary" >Confirm</button>
     <button v-on:click="decline" class="btn-primary">Decline</button>
+    <button v-on:click="confirm" class="btn-primary" >Confirm</button>
+    
   </div>
 </template>
 
