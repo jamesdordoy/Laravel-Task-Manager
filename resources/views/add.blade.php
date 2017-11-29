@@ -18,6 +18,5 @@
 @endsection
 
 @section('scripts')
-  <script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
-  <script src="/js/add.js"></script>
+
 @endsection

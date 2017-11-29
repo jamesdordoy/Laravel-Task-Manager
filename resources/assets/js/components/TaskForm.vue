@@ -20,6 +20,7 @@
     <p><input type="submit" value="Submit" class="form-control btn-primary"/></p>
     <p><button v-on:click.prevent="remove(task.id)" v-show="action == 'PUT' ? true : false" class="form-control btn-primary">Delete</button></p>
   
+    <input type="hidden" name="_token" id="csrf-token" v-model="csrf" />
   </form>
 </template>
 

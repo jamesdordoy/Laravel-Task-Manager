@@ -4,7 +4,6 @@
     <slot></slot>
     <button v-on:click="decline" class="btn-primary">Decline</button>
     <button v-on:click="confirm" class="btn-primary" >Confirm</button>
-    
   </div>
 </template>
 

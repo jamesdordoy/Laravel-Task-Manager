@@ -43671,7 +43671,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
@@ -44337,6 +44336,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -44542,7 +44542,28 @@ var render = function() {
           },
           [_vm._v("Delete")]
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.csrf,
+            expression: "csrf"
+          }
+        ],
+        attrs: { type: "hidden", name: "_token", id: "csrf-token" },
+        domProps: { value: _vm.csrf },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.csrf = $event.target.value
+          }
+        }
+      })
     ]
   )
 }
