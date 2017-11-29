@@ -16,7 +16,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Task::class, function (Faker $faker) {
   
     return [
-        'title' => $faker->paragraph,
+        'title' => $faker->title,
         'body' => $faker->paragraph
     ];
 });
