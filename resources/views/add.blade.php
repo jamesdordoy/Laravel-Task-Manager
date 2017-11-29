@@ -6,8 +6,7 @@
     <h1>Add New Task</h1>
     <task-form 
       task=""
-      action="POST"
-      csrf='{{ csrf_field() }}'>
+      action="POST">
     </task-form>
   </div>
   

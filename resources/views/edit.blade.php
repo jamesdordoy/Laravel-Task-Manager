@@ -7,8 +7,7 @@
     
     <task-form 
       task="{{ $task }}"
-      action="PUT"
-      csrf='{{ csrf_field() }}'>
+      action="PUT">
     </task-form>
     
   </div>

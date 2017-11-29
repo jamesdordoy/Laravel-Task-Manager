@@ -8,7 +8,7 @@
       <result-dialog type="success">Values Added</result-dialog>
     @endif
     
-    <tasks :list="{{ $tasks }}"></tasks>
+    <tasks :json="{{ $tasks }}"></tasks>
   </div>
   
 @endsection

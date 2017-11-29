@@ -9,6 +9,7 @@
       <h2>Title: {{ title }}</h2>
       <p>Description: {{ description }}</p>
       <small><p class="pull-right updated_at">Last Updated: {{ task.updated_at }}</p></small>
+      <h4 class="top-right uncomplete">Task Not Complete</h4>
       <p>
         <button class="btn-primary">Edit</button>
         <button class="btn-primary">Delete</button>
@@ -16,9 +17,9 @@
       </p>
     </div>
     
-    <span v-html="csrf"></span>
-    
-    <p><input type="submit" value="submit" class="form-control btn-primary"/></p>
+    <p><input type="submit" value="Submit" class="form-control btn-primary"/></p>
+    <p><button v-on:click.prevent="remove(task.id)" v-show="action == 'PUT' ? true : false" class="form-control btn-primary">Delete</button></p>
+  
   </form>
 </template>
 
@@ -26,29 +27,42 @@
   .list-group-item{
     margin-bottom: 10px;
   }
+  
+  .top-right{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .uncomplete{
+    color:#ff0000;
+  }
 </style>
 
 <script>
 
   import HTTP from '../HTTP';
   
+  let data = ()=>{
+    return {
+      id: "",
+      title: "",
+      description: "",
+      prevent: ""
+    };
+  }
+  
   export default {
     
     template: '#task-form-template',
-    props: ['csrf', 'task', 'action'],
+    
+    data: data,
+    
+    props: ['task', 'action'],
     mixins: [ HTTP ],
     
-    data: function(){
-      return {
-        id: "",
-        title: "",
-        description: "",
-        prevent: ""
-      };
-    },
-    
-    created: function() {
-    	this.csrf = this.csrf;
+    created: function(){
+    	this.csrf = $('meta[name="csrf-token"]').attr('content');
       this.preview = this.preview;
       
       if(this.task){
@@ -66,23 +80,33 @@
     
     methods: {
       
+      getTask: HTTP.getTask,
+      updateTask: HTTP.putTask,
+      deleteTask: HTTP.deleteTask,
+      
       handleSubmit: function(event){
         if(this.action == "POST"){
           
         }else if(this.action == "PUT"){
           event.preventDefault();
           
-          let token = document.getElementsByName("_token")[0].value;
-          
-          this.updateTask(token, this.id, this.title, this.description, function(data){
-            console.log(data);
-          });
+          this.updateTask(this.csrf, 
+                          this.id, 
+                          this.title, 
+                          this.description, 
+                          function(data){
+                            window.location.href = "/";
+                          });
         }
       },
       
-      getTask: HTTP.getTask,
-      updateTask: HTTP.putTask,
-      deleteTask: HTTP.deleteTask,
+      remove: function(id){
+        this.deleteTask(this.csrf, 
+                        this.id,
+                        function(data){
+                          window.location.href = "/";
+                        });
+      },
     },
       
     computed: {
@@ -101,9 +125,7 @@
         return "";
       },
       
-      formMethod: function(){
-        return this.action;
-      }
+      formMethod: function(){ return this.action; }
     }
   };
 </script>

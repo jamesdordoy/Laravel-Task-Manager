@@ -27,8 +27,21 @@ let _getTasks = function(success){
   });
 };
 
-let _postTask = function(token, title, body, success){ 
+let _postTask = function(token, title, body, success){
   
+  var config = _createHeader(token);
+    
+  axios.post("/api/task/" + id, {
+    title: title,
+    body: body
+  }, config).then(function (response) {
+    if(response.status == 200){
+      success(response.data);
+    }
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 }
 
 let _putTask = function(token, id, title, body, success){
@@ -48,8 +61,45 @@ let _putTask = function(token, id, title, body, success){
   });
 };
 
+let _completeTask = function(token, id, success){
+  var config = _createHeader(token);
+      
+  axios.put("/api/task/complete/" + id, {}, config)
+  .then(function (response) {
+    if(response.status == 200){
+      success(response.data);
+    }
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+};
+
+let _uncompleteTask = function(token, id, success){
+  var config = _createHeader(token);
+      
+  axios.put("/api/task/uncomplete/" + id, {}, config)
+  .then(function (response) {
+    if(response.status == 200){
+      success(response.data);
+    }
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+};
+
 let _deleteTask = function(token, id, success){ 
-  
+  var config = _createHeader(token);
+      
+  axios.delete("/api/task/" + id, config).then(function (response) {
+    if(response.status == 200){
+      success(response.data);
+    }
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 };
 
 export default {
@@ -61,4 +111,6 @@ export default {
   postTask: _postTask,
   putTask: _putTask,
   deleteTask: _deleteTask,
+  completeTask: _completeTask,
+  uncompleteTask: _uncompleteTask,
 };

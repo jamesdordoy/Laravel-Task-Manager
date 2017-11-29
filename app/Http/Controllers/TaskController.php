@@ -96,4 +96,35 @@ class TaskController extends Controller
             'message' => 'task deleted',
         ], 200);
     }
+    
+    
+    public function complete(Request $request, $id){
+      if (!$id) {
+          throw new HttpException(400, "Invalid id");
+      }
+      
+      $task = Task::find($id);
+      $task->completed = 1;
+      
+      if ($task->save()) {
+          return $task;
+      }
+      throw new HttpException(400, "Invalid data");
+      
+    }
+    
+    public function unComplete(Request $request, $id){
+      if (!$id) {
+          throw new HttpException(400, "Invalid id");
+      }
+      
+      $task = Task::find($id);
+      $task->completed = 0;
+      
+      if ($task->save()) {
+          return $task;
+      }
+      throw new HttpException(400, "Invalid data");
+      
+    }
 }
