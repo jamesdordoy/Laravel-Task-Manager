@@ -14,6 +14,7 @@
       <ul class="nav navbar-nav">
         <li><a href="/">View Tasks</a></li>
         <li><a href="/add">Add Task</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
 

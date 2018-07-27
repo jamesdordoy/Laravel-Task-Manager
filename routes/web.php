@@ -13,7 +13,7 @@
 
 Route::get("/", 'TaskController@home');
 
-Route::get("/contact", 'TaskController@home');
+Route::get("/contact", 'ContactController@index');
 
 
 Route::get("/add", 'TaskController@create');
