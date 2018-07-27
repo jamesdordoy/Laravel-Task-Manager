@@ -15,7 +15,7 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+
 Vue.component('result-dialog', require('./components/Dialog.vue'));
 Vue.component('confirmation-dialog', require('./components/ConfirmDialog.vue'));
 Vue.component('tasks', require('./components/Tasks.vue'));
