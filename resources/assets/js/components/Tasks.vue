@@ -2,21 +2,13 @@
   <div class="tasks-container">
     <h1>Tasks</h1>
     <ul class="list-group">
-      
-      <confirm ref="confirmation" type="info">Are you sure you want to take this action?</confirm>
-      
-      <li class="list-group-item" v-for="task in list">
-        <h2>Title: {{ task.title }}</h2>
-        <p>Description: {{ task.body }}</p>
-        <small><p class="pull-right">Last Updated: {{ task.updated_at }}</p></small>
-        <h4 class="top-right complete" v-show="task.completed">Task Complete</h4>
-        <h4 class="top-right uncomplete" v-show="!task.completed">Task Not Complete</h4>
-        <p>
-          <button class="btn-primary"><a :href=" '/edit/' + task.id">Edit</a></button>
-          <button v-on:click="remove(task.id)" class="btn-primary">Delete</button>
-          <button v-on:click="complete(task.id)" v-show="!task.completed" class="btn-primary">Mark as Complete</button>
-          <button v-on:click="uncomplete(task.id)" v-show="task.completed" class="btn-primary">Mark as Not Complete</button>
-        </p>
+      <confirm ref="confirmation" type="info">
+        Are you sure you want to take this action?
+      </confirm>
+      <li class="list-group-item" v-for="task in list" :key="task.id">
+        <task
+          :live="true"
+          :task="task"/>
       </li>
     </ul>
   </div>

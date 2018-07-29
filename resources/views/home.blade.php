@@ -2,7 +2,7 @@
 
 @section('content')
   
-  <div id="main" class="container">
+  <div id="app" class="container">
     
     @if (session("success"))
       <result-dialog type="success">Values Added</result-dialog>

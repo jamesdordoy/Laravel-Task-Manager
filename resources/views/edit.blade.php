@@ -1,16 +1,13 @@
 @extends("layout")
 
 @section("content")
-  
-  <div id="main" class="container">
-    <h1>Edit Task</h1>
+
+  <h1>Edit Task</h1>
     
-    <task-form 
-      task="{{ $task }}"
-      action="PUT">
-    </task-form>
-    
-  </div>
+  <task-form 
+    task="{{ $task }}"
+    action="PUT">
+  </task-form>
   
 @endsection
 

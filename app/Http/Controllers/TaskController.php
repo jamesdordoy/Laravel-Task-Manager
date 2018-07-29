@@ -10,55 +10,70 @@ use App\Http\Resources\Task as TaskResource;
 
 class TaskController extends Controller
 {
+  /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+  public function index()
+  {
+    return Task::with('user')->latest()->get();
+  }
   
   public function home(){
     
-    $tasks = Task::latest()->get();
+    $tasks = Task::with(['assignedTo'])->latest()->get();
 
-    return view('welcome', compact('tasks'));
+    $taskData = $tasks->toArray();
+
+    foreach ($taskData as $key => $task) {
+        $taskData[$key]['user'] = $task['assigned_to']; 
+    } 
+
+    return view('home', [
+        'tasks' => json_encode($taskData),
+    ]);
   }
   
   public function create(){
-    return view('add');
+
+    return view('add', [
+        'users' => \App\User::orderBy("name", "asc")->get(),
+    ]);
   }
   
-  /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+   /**
+    * Show the form for editing the specified resource.
+    *
+    * @param  int  $id
+    * @return Response
+    */
     public function edit($id)
     {
-      $task = Task::findOrFail($id);
+        $task = Task::findOrFail($id);
 
-      return view('edit')->withTask($task);
+        return view('edit')->withTask($task);
     }
   
-  /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-  public function index(){
-    
-    return Task::latest()->get();
-  }
-  
-  public function show ($id){
+
+  public function show($id){
       return new TaskResource(Task::find($id));
   }
 
   public function store(Request $request){
+
     $this->validate($request, [
       'title' => 'required',
-      'description' => 'required'
+      'description' => 'required',
+      'assigned_id' => 'required',
     ]);
     
     $task = new Task;
     
     $task->title = $request->input("title");
     $task->body = $request->input("description");
+    $task->creator_id = \Auth::user()->id;
+    $task->assigned_to_id = $request->input("assigned_id");
     $task->save();
     
     return redirect("/")->with("success", "Task Created");

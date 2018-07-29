@@ -11,6 +11,8 @@
 |
 */
 
+Route::auth();
+
 Route::get("/", 'TaskController@home');
 
 Route::get("/contact", 'ContactController@index');
@@ -21,3 +23,7 @@ Route::post("/add", "TaskController@store");
 
 Route::get("/edit/{id}", 'TaskController@edit');
 Route::post("/edit/{id}", "TaskController@update");
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

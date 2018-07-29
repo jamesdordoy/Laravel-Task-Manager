@@ -1,30 +1,59 @@
 <template id="task-form-template">
-  <form v-on:submit="handleSubmit" :method="formMethod" :action="formAction" id="demo" class="add_task">
-    <p>Title: <input class="form-control" v-model="title" type="text" name="title" id="title" placeholder="Title"/></p>
-    <p>Description: <textarea class="form-control" v-bind:class="{}" v-model="description" type="text" name="description" id="description" placeholder="Description"></textarea></p>
-    
-    <h2>Preview</h2>
-    <div class="list-group-item">
-      
-      <h2>Title: {{ title }}</h2>
-      <p>Description: {{ description }}</p>
-      <small><p class="pull-right updated_at">Last Updated: {{ task.updated_at }}</p></small>
-      <h4 class="top-right uncomplete">Task Not Complete</h4>
-      <p>
-        <button class="btn-primary">Edit</button>
-        <button class="btn-primary">Delete</button>
-        <button class="btn-primary">Mark as Complete</button>
-      </p>
-    </div>
-    
-    <p><input type="submit" value="Submit" class="form-control btn-primary"/></p>
-    <p><button v-on:click.prevent="remove(task.id)" v-show="action == 'PUT' ? true : false" class="form-control btn-primary">Delete</button></p>
   
-    <input type="hidden" name="_token" id="csrf-token" v-model="csrf" />
-  </form>
+  <div class="row">
+      
+    <div class="col-md-5">
+      <h2>Create a new task</h2>
+      <form v-on:submit="handleSubmit" :method="formMethod" :action="formAction" id="demo" class="add_task">
+        <input type="hidden" name="_token" id="csrf-token" v-model="csrf"/>
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input class="form-control" v-model="title" type="text" name="title" id="title" placeholder="Title"/>
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea class="form-control" v-model="body" rows="5" type="text" name="description" id="description" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="description">Assigned To:</label>
+          <select name="assigned_id" v-model="user_id" class="form-control">
+            <option value="0">Select a User</option>
+            <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
+          </select>
+        </div>
+        <input type="submit" value="Submit" class="form-control btn-primary"/>
+        <button
+          v-on:click.prevent="remove(task.id)"
+          v-show="action == 'PUT' ? true : false"
+          class="form-control btn-primary">
+          Delete
+        </button>
+      </form>
+    </div>
+    <div class="col-md-7">
+      <h2>Live Preview</h2>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <task
+          :live="false"
+          :task="{
+            'id': 0,
+            'title': this.title,
+            'body': this.description,
+            'completed': false,
+            'user': findAssigned,
+            'created_at': moment,
+            'updated_at': moment,
+          }"/>
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <style scoped>
+
+
   .list-group-item{
     margin-bottom: 10px;
   }
@@ -44,39 +73,41 @@
 
   import HTTP from '../HTTP';
   
-  let data = ()=>{
-    return {
-      id: "",
-      title: "",
-      description: "",
-      prevent: ""
-    };
-  }
-  
   export default {
-    
-    template: '#task-form-template',
-    
-    data: data,
-    
-    props: ['task', 'action'],
-    mixins: [ HTTP ],
-    
-    created: function(){
-    	this.csrf = $('meta[name="csrf-token"]').attr('content');
-      this.preview = this.preview;
-      
-      if(this.task){
-        let t = JSON.parse(this.task);
-        this.id = t.id;
-        this.title = t.title;
-        this.description = t.body;
-      }
+
+    data: function() {
+      return {
+        id: "",
+        title: "",
+        description: "",
+        user_id: 0,
+        assigned: {},
+        prevent: ""
+      };
     },
-    
-    mounted: function(){
-            
-      document.querySelector('.updated_at').innerHTML = "Last Updated: " + new Date().toUTCString();
+    mixins: [ HTTP ],
+    props: {
+      users: {
+        type: Array,
+        default() {
+          return [];
+        }
+      },
+      task: {
+        type: Object,
+        default() {
+          return {};
+        }
+      },
+      action: {
+        type: String,
+        default() {
+          return [];
+        }
+      },
+    },
+    created: function(){
+      this.preview = this.preview;
     },
     
     methods: {
@@ -125,8 +156,10 @@
         
         return "";
       },
-      
-      formMethod: function(){ return this.action; }
+      csrf: () => $('meta[name="csrf-token"]').attr('content'),
+      moment: () => window.moment(),
+      findAssigned: function(){ return this.users.find(user => user.id == this.user_id) },
+      formMethod: function() { return this.action }
     }
   };
 </script>

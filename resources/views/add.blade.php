@@ -1,15 +1,10 @@
 @extends("layout")
 
 @section("content")
-  
-  <div id="main" class="container">
-    <h1>Add New Task</h1>
-    <task-form 
-      task=""
-      action="POST">
-    </task-form>
-  </div>
-  
+  <task-form 
+    :users="{{ $users }}"
+    action="POST">
+  </task-form>
 @endsection
 
 @section('templates')

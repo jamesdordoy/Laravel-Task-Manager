@@ -10,18 +10,21 @@
 
         <!-- Styles -->
         
-        <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
     </head>
     <body>
     
         @include("partials.header")
-        
-        @yield('content')
+        <div id="app" class="container">
+            @yield('content')
+    
+        </div>
+       
         
         @yield('templates')
     
         @yield('scripts')
         
-        <script src="/js/app.js"></script>
+        <script src="{{ mix('/js/app.js') }}"></script>
     </body>
 </html>
