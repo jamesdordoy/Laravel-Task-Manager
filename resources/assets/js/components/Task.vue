@@ -18,10 +18,41 @@
 a {
   color: #fff !important;
 }
+
+.btn-primary{
+    margin-right: 5px;
+  }
+  
+  .list-group-item{
+    position: relative;
+  }
+  
+  .list-group-item:hover{
+    background: #eee;
+  }
+  
+  .btn-primary a{
+    color:#fff;
+    text-decoration: none;
+  }
+  
+  .top-right{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .complete{
+    color:#00ffff;
+  }
+  
+  .uncomplete{
+    color:#ff0000;
+  }
 </style>
 
 <script>
-  import HTTP from '../HTTP';
+  import HTTP from '../http/HTTP';
 
   export default {
     props: {

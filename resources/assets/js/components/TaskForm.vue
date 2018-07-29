@@ -71,7 +71,7 @@
 
 <script>
 
-  import HTTP from '../HTTP';
+  import HTTP from '../http/HTTP';
   
   export default {
 
