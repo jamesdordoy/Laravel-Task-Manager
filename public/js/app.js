@@ -60767,10 +60767,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   props: ['json'],
 
-  components: {
-    confirm: __WEBPACK_IMPORTED_MODULE_0__ConfirmDialog___default.a
-  },
-
   data: function data() {
     return {
       list: ""

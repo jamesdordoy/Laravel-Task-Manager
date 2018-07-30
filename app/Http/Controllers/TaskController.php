@@ -23,7 +23,6 @@ class TaskController extends Controller
   public function home(){
     
     $tasks = Task::with(['assignedTo'])->latest()->get();
-
     $taskData = $tasks->toArray();
 
     foreach ($taskData as $key => $task) {

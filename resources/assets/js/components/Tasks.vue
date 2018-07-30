@@ -28,10 +28,6 @@
 
     props: ['json'],
     
-    components: {
-      confirm: Confirm
-    },
-    
     data: function(){
       return {
         list: "",
